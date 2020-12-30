@@ -7,7 +7,6 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -21,7 +20,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.backend.tutorialdemo.model.Tutorial;
 import com.backend.tutorialdemo.repository.TutorialRepository;
 
-@CrossOrigin(origins = "http://localhost:8081")
 @RestController
 @RequestMapping("/api")
 public class TutorialController {
@@ -37,11 +35,9 @@ public class TutorialController {
             } else {
                 tutorials = tutorialRepository.findByTitleContaining(title);
             }
-            
             if (tutorials.isEmpty()) {
                 return new ResponseEntity<>(HttpStatus.NO_CONTENT);
             }
-            
             return new ResponseEntity<>(tutorials, HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
@@ -96,7 +92,7 @@ public class TutorialController {
                 _currentTutorial.setTitle(tutorial.getTitle());
                 _currentTutorial.setDescription(tutorial.getDescription());
                 _currentTutorial.setPublished(tutorial.isPublished());
-                return new ResponseEntity<>(_currentTutorial, HttpStatus.OK);
+                return new ResponseEntity<>(tutorialRepository.save(_currentTutorial), HttpStatus.OK);
             } else {
                 return new ResponseEntity<>(HttpStatus.NOT_FOUND);
             }
