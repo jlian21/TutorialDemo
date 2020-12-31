@@ -5,7 +5,8 @@
   "main": "ini.js",
   "dependencies": {
     "axios": "^0.21.1",
-    "bootstrap": "^4.5.3"
+    "bootstrap": "^4.5.3",
+    "mvn": "^3.5.0"
   },
   "devDependencies": {},
   "scripts": {
