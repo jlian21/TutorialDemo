@@ -4,13 +4,13 @@ import UploadService from "../services/upload-files.service";
 export default class UploadFiles extends Component {
     constructor(props) {
         super(props);
-    
+
         this.state = {
           selectedFiles: undefined,
           currentFile: undefined,
           progress: 0,
           message: "",
-    
+
           fileInfos: [],
         };
 
@@ -28,12 +28,12 @@ export default class UploadFiles extends Component {
     upload() {
         // ??? how does the loop word here
         let currentFile = this.state.selectedFiles[0];
-    
+
         this.setState({
           progress: 0,
           currentFile: currentFile,
         });
-    
+
         UploadService.upload(currentFile, (event) => {
           this.setState({
             progress: Math.round((100 * event.loaded) / event.total),
@@ -50,7 +50,7 @@ export default class UploadFiles extends Component {
               fileInfos: files.data,
             });
           })
-          .then(console.log(files[0].url))
+          //.then(console.log(files[0].url))
           .catch(() => {
             this.setState({
               progress: 0,
@@ -58,7 +58,7 @@ export default class UploadFiles extends Component {
               currentFile: undefined,
             });
           });
-    
+
         this.setState({
           selectedFiles: undefined,
         });
@@ -73,7 +73,7 @@ export default class UploadFiles extends Component {
           });
         });
     }
-    
+
 
     render() {
         const {
@@ -83,7 +83,7 @@ export default class UploadFiles extends Component {
           message,
           fileInfos,
         } = this.state;
-    
+
         return (
           <div>
             {/* progress bar */}
@@ -127,8 +127,7 @@ export default class UploadFiles extends Component {
                 {fileInfos &&
                   fileInfos.map((file, index) => (
                     <li className="list-group-item" key={index}>
-                      <a href={file.url}>{file.id}</a>
-                      <script type="text/javascript">console.log("????")</script>
+                      <a href={file.url}>{file.name}</a>
                     </li>
                   ))}
               </ul>

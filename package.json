@@ -6,10 +6,12 @@
   "dependencies": {
     "axios": "^0.21.1",
     "bootstrap": "^4.5.3",
-    "mvn": "^3.5.0"
+    "mvn": "^3.5.0",
+    "react-router-dom": "^5.2.0"
   },
   "devDependencies": {},
   "scripts": {
+    "start": "node index.js"
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {

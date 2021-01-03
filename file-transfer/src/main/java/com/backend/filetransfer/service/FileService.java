@@ -26,9 +26,9 @@ public class FileService {
     @Autowired
     private GridFsOperations operations;
 
-    public String addFile(String title, MultipartFile file) throws IOException {
+    public String addFile(MultipartFile file) throws IOException {
         DBObject metaData = new BasicDBObject();
-        metaData.put("title", title);
+        metaData.put("name", file.getOriginalFilename());
         ObjectId id = gridFsTemplate.store(file.getInputStream(), file.getName(), file.getContentType(), metaData);
         return id.toString();
     }
@@ -36,7 +36,7 @@ public class FileService {
     public FileDB getFile(String id) throws IllegalStateException, IOException {
         GridFSFile fileRecord = gridFsTemplate.findOne(new Query(Criteria.where("_id").is(id)));
         FileDB file = new FileDB();
-        file.setTitle(fileRecord.getMetadata().get("title").toString());
+        file.setName(fileRecord.getMetadata().get("name").toString());
         file.setStream(operations.getResource(fileRecord).getInputStream());
         file.setId(fileRecord.getId().toString());
         return file;
@@ -53,6 +53,7 @@ public class FileService {
             _id = _id.replace("BsonObjectId{value=", "");
             _id = _id.replace("}", "");
             file.setId(_id);
+            file.setName(fileRecord.getMetadata().get("name").toString());
             list.add(file);
         }
         return list;
