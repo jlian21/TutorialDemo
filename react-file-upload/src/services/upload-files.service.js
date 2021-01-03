@@ -14,6 +14,11 @@ class UploadFilesService {
     });
   }
 
+  deleteById(id) {
+    console.log("deleted through service.js");
+    return http.delete("/files/" + id);
+  }
+
   getFiles() {
     return http.get("/files");
   }

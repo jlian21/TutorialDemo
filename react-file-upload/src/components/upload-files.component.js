@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import UploadService from "../services/upload-files.service";
+import axios from "axios";
 
 export default class UploadFiles extends Component {
     constructor(props) {
@@ -16,6 +17,8 @@ export default class UploadFiles extends Component {
 
         this.selectFile = this.selectFile.bind(this);
         this.upload = this.upload.bind(this);
+        this.deleteById = this.deleteById.bind(this);
+        this.refresh = this.refresh.bind(this);
         this.componentDidMount = this.componentDidMount.bind(this);
     }
 
@@ -62,6 +65,33 @@ export default class UploadFiles extends Component {
         this.setState({
           selectedFiles: undefined,
         });
+    }
+
+    deleteById(id) {
+      UploadService.deleteById(id)
+      .then(
+        UploadService.getFiles().then((response) => {
+          this.setState({
+            fileInfos: response.data,
+          });
+        })
+      )
+      console.log("deleted through front end");
+
+    }
+
+    refresh() {
+      // let files = UploadService.getFiles();
+      // this.setState({
+      //   fileInfos: files.data,
+      // });
+      // console.log("current file infos");
+      // console.log(this.fileInfos);
+      UploadService.getFiles().then((response) => {
+        this.setState({
+          fileInfos: response.data,
+        });
+      });
     }
 
 
@@ -128,6 +158,7 @@ export default class UploadFiles extends Component {
                   fileInfos.map((file, index) => (
                     <li className="list-group-item" key={index}>
                       <a href={file.url}>{file.name}</a>
+                      <button onClick={() => {this.deleteById(file.id)}}>Delete</button>
                     </li>
                   ))}
               </ul>

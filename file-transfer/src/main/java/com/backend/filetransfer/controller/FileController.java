@@ -12,6 +12,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -46,7 +47,7 @@ public class FileController {
 
     @GetMapping("/files")
     public ResponseEntity<List<FileDB>> getAllFiles() throws IllegalStateException, IOException {
-    	System.out.println("enter get all files");
+    	// System.out.println("enter get all files");
         List<FileDB> files = service.getAllFiles();
         for (FileDB file : files) {
             file.setUrl(ServletUriComponentsBuilder.fromCurrentContextPath().path("/files/")
@@ -54,11 +55,13 @@ public class FileController {
                     .toUriString());
             
         }
+        System.out.println(ResponseEntity.status(HttpStatus.OK).body(files));
         return ResponseEntity.status(HttpStatus.OK).body(files);
     }
 
     @GetMapping("/files/{id}")
-    public ResponseEntity<byte[]> getFileById(@PathVariable String id) throws Exception {
+    public ResponseEntity<byte[]> getFileById(@PathVariable("id") String id) throws Exception {
+        System.out.println("deleted in controller");
         FileDB file = service.getFile(id);
         ByteArrayOutputStream out = new ByteArrayOutputStream();
         InputStream in = file.getStream();
@@ -72,5 +75,16 @@ public class FileController {
                 .contentType(MediaType.parseMediaType("application/octet-stream"))
                 .header(HttpHeaders.CONTENT_DISPOSITION, "filename=\"" + file.getName() + "\"")
                 .body(out.toByteArray());
+    }
+
+    @DeleteMapping("/files/{id}")
+    public ResponseEntity<HttpStatus> deleteById(@PathVariable("id") String id) {
+        System.out.println("delete controller" + id);
+        try {
+            service.deleteById(id);
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+          } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+          }
     }
 }
