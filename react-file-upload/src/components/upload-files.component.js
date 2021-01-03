@@ -50,7 +50,6 @@ export default class UploadFiles extends Component {
               fileInfos: files.data,
             });
           })
-          .then(console.log(files[0].url))
           .catch(() => {
             this.setState({
               progress: 0,
