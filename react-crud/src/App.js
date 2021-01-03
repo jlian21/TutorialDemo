@@ -7,6 +7,8 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import AddTutorial from "./components/add-tutorial.component";
 import Tutorial from "./components/tutorial.component";
 import TutorialsList from "./components/tutorials-list.component";
+import UploadFiles from "./components/upload-files.component";
+
 
 
 class App extends Component {
@@ -30,6 +32,18 @@ class App extends Component {
             </li>
           </div>
         </nav>
+        
+        {/* start of uploda file div */}
+        <div className="container" style={{ width: "600px" }}>
+          <div style={{ margin: "20px" }}>
+              <h3>bezkoder.com</h3>
+              <h4>React upload Files</h4>
+          </div>
+
+          <UploadFiles />
+        </div>
+        {/* end of uploda file div */}
+
 
         <div className="container mt-3">
           <Switch>
