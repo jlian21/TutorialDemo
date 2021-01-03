@@ -43,6 +43,7 @@ public class FileService {
     }
 
     public List<FileDB> getAllFiles() throws IllegalStateException, IOException {
+    	System.out.println("enter service");
         MongoCursor<GridFSFile> iterator = gridFsTemplate.find(new Query()).iterator();
         List<FileDB> list = new ArrayList<FileDB>();
         while (iterator.hasNext()) {

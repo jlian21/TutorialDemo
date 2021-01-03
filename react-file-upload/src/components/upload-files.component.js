@@ -50,6 +50,7 @@ export default class UploadFiles extends Component {
               fileInfos: files.data,
             });
           })
+          .then(console.log(files[0].url))
           .catch(() => {
             this.setState({
               progress: 0,
@@ -126,7 +127,8 @@ export default class UploadFiles extends Component {
                 {fileInfos &&
                   fileInfos.map((file, index) => (
                     <li className="list-group-item" key={index}>
-                      <a href={file.url}>{file.name}</a>
+                      <a href={file.url}>{file.id}</a>
+                      <script type="text/javascript">console.log("????")</script>
                     </li>
                   ))}
               </ul>
